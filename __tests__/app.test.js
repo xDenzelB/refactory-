@@ -35,14 +35,13 @@ describe('refactory routes', () => {
   });
 
   it('should be able to create an order', async () => {
-    const res = await request(app)
-      .post('/api/v1/orders')
-      .send({ product: 'Widget', quantity: 1 });
+    const order = await Order.insert({ product: 'apples', quantity: 2 });
+    const res = await request(app).get(`/api/v1/orders/${order.id}`);
 
     expect(res.body).toEqual({
       id: expect.any(String),
-      product: 'Widget',
-      quantity: 1,
+      product: 'apples',
+      quantity: 2,
     });
   });
 
